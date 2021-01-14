@@ -1,25 +1,29 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-import { TodoVerbs, TodoStateType } from "../state/TodoState/TodoState";
+import { TodoActionDispatcher } from "../state/TodoState/TodoState";
 
-export class AddTodo extends Component<any, any> {
+export class AddTodo extends Component<any, { currentTodoText: string }> {
+    constructor(props: any) {
+        super(props)
+        this.state = { currentTodoText: `[${(new Date()).toLocaleTimeString()}] ` }
+    }
     render() {
         return (
             <div>
-                <button onClick={this.create.bind(this)}>Add Sample Todo</button>
+                <input type="text" name="todoText" id=""
+                    value={this.state.currentTodoText}
+                    onChange={(evObj) => { this.setState({ currentTodoText: evObj.target.value }) }}
+                />
+                <button onClick={this.create.bind(this)}>Add Todo</button>
             </div>
         )
     }
+    reset() {
+        this.setState({ currentTodoText: `[${(new Date()).toLocaleTimeString()}] ` })
+    }
     create() {
-        const todoTimestamp = new Date()
-        const sample: TodoStateType = {
-            id: "" + todoTimestamp.getTime(),
-            done: false,
-            text: `Sample Todo created at ${todoTimestamp.toLocaleString()}`
-
-        }
-        this.props.create(sample)
-
+        this.props.create(this.state.currentTodoText)
+        this.reset()
     }
 }
 
@@ -27,16 +31,8 @@ const mapStateToProps = (state: any) => ({
     todos: state
 })
 
-const mapDispatchToProps = (dispatch: any) => {
-    return ({
-        create: (Todo: TodoStateType) => {
-            dispatch({
-                type: TodoVerbs.CREATE,
-                details: Todo
-            })
-        }
-    })
-
+const mapDispatchToProps = (dispatch: Function) => {
+    return (new TodoActionDispatcher(dispatch)).getDispatchToPropsMap()
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTodo)

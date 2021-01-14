@@ -21,6 +21,10 @@ const reducer = (state: Array<TodoStateType>, action: TodoAction) => {
     return (new TodoActionParser(state, action)).getState()
 }
 export default reducer
+
+/**
+ * Handles immutation of state
+ */
 class TodoActionParser {
     state: Array<TodoStateType>
     constructor(state: Array<TodoStateType> = [], action: TodoAction) {
@@ -60,7 +64,54 @@ class TodoActionParser {
         })
     }
     getState() {
+        /**
+         * Always return deep copy of state 
+         * and not the same object again, 
+         * else your components won't re-render  
+         */ 
         return [...this.state]
     }
 
+}
+/**
+ * Prepares action data for dispatch
+ */
+export class TodoActionDispatcher {
+    storedDispatch: Function
+    /**
+     * Stores dispatch prop for action calls
+     * @param dispatch dispatch argument received in mapDispatchToProps
+     */
+    constructor(dispatch: Function) {
+        this.storedDispatch = dispatch
+    }
+    //----- action methods -----//
+    createToDo(text: string) {
+        const todo: TodoStateType = {
+            id: `todo-${Math.ceil(Math.random() * 10000)}-${(new Date()).getTime()}`,
+            text,
+            done: false
+        };
+        this.storedDispatch({
+            type: TodoVerbs.CREATE,
+            details: todo
+        })
+        
+    }
+    updateToDo() {
+        
+    }
+    deleteToDo(todoId: string) {
+        
+    }
+    //----- !action methods -----//
+
+    /**
+     * returns function list to return in mapDispatchToProps
+     */
+    getDispatchToPropsMap() {
+        const { deleteToDo, createToDo: create, updateToDo: update } = this
+        // remember to bind functions in returned object so that they don't lose access to current context 
+        return { create: create.bind(this), update: update.bind(this), deleteToDo: deleteToDo.bind(this) }
+    }
 }
