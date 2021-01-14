@@ -1,22 +1,35 @@
-import React, { Component } from 'react'
+import { Component } from 'react'
 import { connect } from 'react-redux'
-import { TodoStateType } from '../state/TodoState/TodoState'
+import { TodoActionDispatcher, TodoStateType } from '../state/TodoState/TodoState'
 
 /**
  * Pro-tip: If you are using any form of state management 
  * then try your best to keep your connected component from 
- * having its own state.
+ * having its own state especiall in cases where you just have 
+ * to simply display data.
  */
 class ListTodos extends Component<any, any> {
 
     render() {
         const todoItems = this.props.todos.map ? this.props.todos.map((todo: TodoStateType) => (
-            <li key={"list-item-" + (new Date()).getTime()+Math.random()}>{todo.text}</li>
+            <li key={"todo-list-item-" + (new Date()).getTime() + Math.random()}>
+                <span className="todo-status-toggle" onClick={() => { this.toggleTodo(todo) }}>{todo.done ? "✅" : "🔲"}</span>
+                {todo.text}
+                <small><button className="todo-delete-button" onClick={() => { this.deleteTodo(todo) }}>[-]</button></small>
+            </li>
         )) : []
 
         return (
-            <ul key={"list-" + (new Date()).getTime()}>{todoItems}</ul>
+            <ul className="todo-list" key={"todo-list-" + (new Date()).getTime()}>{todoItems}</ul>
         )
+    }
+    toggleTodo(toDo: TodoStateType) {
+        toDo.done = !toDo.done
+        this.props.updateToDo(toDo.id, toDo.done, toDo.text)
+
+    }
+    deleteTodo(todo: TodoStateType) {
+        this.props.deleteToDo(todo.id)
     }
 }
 
@@ -27,8 +40,8 @@ const mapStateToProps = (state: any) => {
 
 }
 
-const mapDispatchToProps = {
-
+const mapDispatchToProps = (dispatch: Function) => {
+    return (new TodoActionDispatcher(dispatch)).getDispatchToPropsMap()
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListTodos)

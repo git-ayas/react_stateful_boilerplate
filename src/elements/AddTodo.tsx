@@ -22,17 +22,19 @@ export class AddTodo extends Component<any, { currentTodoText: string }> {
         this.setState({ currentTodoText: `[${(new Date()).toLocaleTimeString()}] ` })
     }
     create() {
-        this.props.create(this.state.currentTodoText)
+        this.props.createToDo(this.state.currentTodoText)
         this.reset()
     }
 }
 
 const mapStateToProps = (state: any) => ({
-    todos: state
 })
 
+
 const mapDispatchToProps = (dispatch: Function) => {
-    return (new TodoActionDispatcher(dispatch)).getDispatchToPropsMap()
+    const { createToDo} = (new TodoActionDispatcher(dispatch)).getDispatchToPropsMap()
+    return { createToDo }
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTodo)

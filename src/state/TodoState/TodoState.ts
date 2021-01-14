@@ -68,7 +68,7 @@ class TodoActionParser {
          * Always return deep copy of state 
          * and not the same object again, 
          * else your components won't re-render  
-         */ 
+         */
         return [...this.state]
     }
 
@@ -77,7 +77,7 @@ class TodoActionParser {
  * Prepares action data for dispatch
  */
 export class TodoActionDispatcher {
-    storedDispatch: Function
+    private storedDispatch: Function
     /**
      * Stores dispatch prop for action calls
      * @param dispatch dispatch argument received in mapDispatchToProps
@@ -96,13 +96,23 @@ export class TodoActionDispatcher {
             type: TodoVerbs.CREATE,
             details: todo
         })
-        
+
     }
-    updateToDo() {
-        
+    updateToDo(id: string, done: boolean, text: string) {
+        this.storedDispatch({
+            type: TodoVerbs.UPDATE,
+            details: {
+                id,done,text
+            }
+        })
     }
-    deleteToDo(todoId: string) {
-        
+    deleteToDo(id: string) {
+        this.storedDispatch({
+            type: TodoVerbs.DELETE,
+            details: {
+                id
+            }
+        })
     }
     //----- !action methods -----//
 
@@ -110,8 +120,8 @@ export class TodoActionDispatcher {
      * returns function list to return in mapDispatchToProps
      */
     getDispatchToPropsMap() {
-        const { deleteToDo, createToDo: create, updateToDo: update } = this
+        const { deleteToDo, createToDo, updateToDo } = this
         // remember to bind functions in returned object so that they don't lose access to current context 
-        return { create: create.bind(this), update: update.bind(this), deleteToDo: deleteToDo.bind(this) }
+        return { createToDo: createToDo.bind(this), updateToDo: updateToDo.bind(this), deleteToDo: deleteToDo.bind(this) }
     }
 }
