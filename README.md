@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# About
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app is my boilerplate for creating apps with Redux as state management mechanism. The goal is to adopt an appropriate duck typing strategy that reduces clutter and make redux code more readable.The app is a simple todo list app. Feel free to fork this and create pull requests with improvements.
 
 ## Available Scripts
 
