@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { TodoActionDispatcher, TodoStateType } from '../state/TodoState/TodoState'
+import { TodoActionDispatcher, TodoStateType } from '../../state/TodoState/TodoState'
 
 /**
  * Pro-tip: If you are using any form of state management 
