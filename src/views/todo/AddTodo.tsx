@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { TodoActionDispatcher } from "../../state/TodoState/TodoState";
+import { TodoActionDispatcher } from "../../state/TodoState";
 
 export class AddTodo extends Component<any, { currentTodoText: string }> {
     constructor(props: any) {
