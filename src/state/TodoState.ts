@@ -25,11 +25,11 @@ const reducer = (state: Array<TodoStateType>, action: TodoAction) => {
 export default reducer
 
 /**
- * Handles immutation of state
+ * Handles immutation of state. loads state from localstorage if previously stored
  */
 class TodoActionParser {
     state: Array<TodoStateType>
-    constructor(state: Array<TodoStateType> = [], action: TodoAction) {
+    constructor(state: Array<TodoStateType> = localStorage.getItem("todos")===null?[]:JSON.parse(localStorage.getItem("todos") as string), action: TodoAction) {
         this.state = state
         switch (action.type) {
             case TodoVerbs.CREATE_TODO:
@@ -66,17 +66,19 @@ class TodoActionParser {
         })
     }
     getState() {
+        // store state in localstorage to be retrieved in case of page reload. allows component to resume from where we left off
+        if (this.state !== null) localStorage.setItem("todos", JSON.stringify(this.state))
         /**
          * Always return deep copy of state 
          * and not the same object again, 
          * else your components won't re-render  
          */
-        return [...this.state]
+        return this.state !== null?[...this.state]:[]
     }
 
 }
 /**
- * Prepares action data for dispatch
+ * Prepares action data for dispatch.
  */
 export class TodoActionDispatcher {
     private storedDispatch: Function

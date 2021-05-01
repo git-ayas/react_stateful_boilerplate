@@ -15,8 +15,8 @@ class ListCounters extends Component<any, any> {
             <li className="counter-list-item" key={"counter-list-item-" + (new Date()).getTime() + Math.random()}>
                 <div className="counter-container">
                     <button className="btn-clear counter-increment" onClick={() => { this.updateCounter(counter, true) }}>{"➕"}</button>
-                    {counter.text}
-                    <input className="counter-count" type="text" value={counter.count} disabled />
+                    {counter.text} [{counter.count}]
+                    {/* <input className="counter-count" type="text" value={counter.count} disabled /> */}
                     <button className="btn-clear counter-decrement" onClick={() => { this.updateCounter(counter, false) }}>{"➖"}</button>
                 </div>
                 <small><button className="btn-clear .counter-delete-button" onClick={() => { this.deleteCounter(counter) }}>🗑️</button></small>

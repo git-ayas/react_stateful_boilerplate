@@ -1,8 +1,8 @@
 
 export enum CounterVerbs {
-    CREATE_COUNTER="CREATE_COUNTER", 
-    UPDATE_COUNTER="UPDATE_COUNTER", 
-    DELETE_TODO="DELETE_TODO"
+    CREATE_COUNTER = "CREATE_COUNTER",
+    UPDATE_COUNTER = "UPDATE_COUNTER",
+    DELETE_TODO = "DELETE_TODO"
 }
 /**
  * This is equivalent to:
@@ -29,7 +29,7 @@ export default reducer
  */
 class CounterActionParser {
     state: Array<CounterStateType>
-    constructor(state: Array<CounterStateType> = [], action: CounterAction) {
+    constructor(state: Array<CounterStateType> = (localStorage.getItem("counters") === null ? [] : JSON.parse(localStorage.getItem("counters") as string)), action: CounterAction) {
         this.state = state
         switch (action.type) {
             case CounterVerbs.CREATE_COUNTER:
@@ -49,13 +49,13 @@ class CounterActionParser {
         if (this.state.push) this.state.push(Counter)
 
     }
-    private update(CounterData: {id:string,increment:boolean,text:string}) {
+    private update(CounterData: { id: string, increment: boolean, text: string }) {
         this.state = this.state.map((Counter) => {
             if (CounterData.id === Counter.id) {
                 if (CounterData.increment) {
                     Counter.count++
-                }else{
-                    if(Counter.count>0)Counter.count--;
+                } else {
+                    if (Counter.count > 0) Counter.count--;
                 }
                 return Counter
             }
@@ -71,12 +71,13 @@ class CounterActionParser {
         })
     }
     getState() {
+        if (this.state !== null) localStorage.setItem("counters", JSON.stringify(this.state))
         /**
          * Always return deep copy of state 
          * and not the same object again, 
          * else your components won't re-render  
          */
-        return [...this.state]
+        return this.state !== null?[...this.state]:[]
     }
 
 }
@@ -109,7 +110,7 @@ export class CounterActionDispatcher {
         this.storedDispatch({
             type: CounterVerbs.UPDATE_COUNTER,
             details: {
-                id,increment,text
+                id, increment, text
             }
         })
     }
