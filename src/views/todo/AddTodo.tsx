@@ -14,7 +14,7 @@ export class AddTodo extends Component<any, { currentTodoText: string }> {
                     value={this.state.currentTodoText}
                     onChange={(evObj) => { this.setState({ currentTodoText: evObj.target.value }) }}
                 />
-                <button onClick={this.create.bind(this)}>Add Todo</button>
+                <button className="btn-clear" onClick={this.create.bind(this)}>🔼</button>
             </div>
         )
     }

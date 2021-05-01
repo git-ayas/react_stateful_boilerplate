@@ -1,6 +1,8 @@
 
 export enum TodoVerbs {
-    CREATE, UPDATE, DELETE
+    CREATE_TODO="CREATE_TODO", 
+    UPDATE_TODO="UPDATE_TODO", 
+    DELETE_TODO="DELETE_TODO"
 }
 /**
  * This is equivalent to:
@@ -30,13 +32,13 @@ class TodoActionParser {
     constructor(state: Array<TodoStateType> = [], action: TodoAction) {
         this.state = state
         switch (action.type) {
-            case TodoVerbs.CREATE:
+            case TodoVerbs.CREATE_TODO:
                 this.create(action.details)
                 break;
-            case TodoVerbs.UPDATE:
+            case TodoVerbs.UPDATE_TODO:
                 this.update(action.details)
                 break;
-            case TodoVerbs.DELETE:
+            case TodoVerbs.DELETE_TODO:
                 this.delete(action.details.id)
                 break;
             default:
@@ -93,14 +95,14 @@ export class TodoActionDispatcher {
             done: false
         };
         this.storedDispatch({
-            type: TodoVerbs.CREATE,
+            type: TodoVerbs.CREATE_TODO,
             details: todo
         })
 
     }
     updateToDo(id: string, done: boolean, text: string) {
         this.storedDispatch({
-            type: TodoVerbs.UPDATE,
+            type: TodoVerbs.UPDATE_TODO,
             details: {
                 id,done,text
             }
@@ -108,7 +110,7 @@ export class TodoActionDispatcher {
     }
     deleteToDo(id: string) {
         this.storedDispatch({
-            type: TodoVerbs.DELETE,
+            type: TodoVerbs.DELETE_TODO,
             details: {
                 id
             }
