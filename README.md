@@ -1,6 +1,6 @@
 # About
 
-This app is my boilerplate for creating apps with Redux as state management mechanism. The goal is to adopt an appropriate duck typing strategy that reduces clutter and make redux code more readable.The app is a simple todo list app. Feel free to fork this and create pull requests with improvements.
+This app is my boilerplate for creating apps with Redux as state management mechanism. The goal is to adopt an appropriate duck typing strategy that reduces clutter and make redux code more readable.The app is a simple todo control and a counter app to demonstrate 2 different modules that are interacting with a common redux store. Feel free to fork this and create pull requests with improvements.
 
 ## Available Scripts
 
