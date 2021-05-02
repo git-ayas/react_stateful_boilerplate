@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { TodoActionDispatcher, TodoStateType } from '../../state/TodoState'
+import { TodoActionDispatcher, TodoStateEntryType } from '../../state/TodoState'
 
 /**
  * Pro-tip: If you are using any form of state management 
@@ -11,7 +11,7 @@ import { TodoActionDispatcher, TodoStateType } from '../../state/TodoState'
 class ListTodos extends Component<any, any> {
 
     render() {
-        const todoItems = this.props.todos.map ? this.props.todos.map((todo: TodoStateType) => (
+        const todoItems = this.props.todos.map ? this.props.todos.map((todo: TodoStateEntryType) => (
             <li key={"todo-list-item-" + (new Date()).getTime() + Math.random()}>
                 <span className="todo-status-toggle" onClick={() => { this.toggleTodo(todo) }}>{todo.done ? "✅" : "🔲"}</span>
                 {todo.text}
@@ -23,12 +23,12 @@ class ListTodos extends Component<any, any> {
             <ul className="todo-list" key={"todo-list-" + (new Date()).getTime()}>{todoItems}</ul>
         )
     }
-    toggleTodo(toDo: TodoStateType) {
+    toggleTodo(toDo: TodoStateEntryType) {
         toDo.done = !toDo.done
         this.props.updateToDo(toDo.id, toDo.done, toDo.text)
 
     }
-    deleteTodo(todo: TodoStateType) {
+    deleteTodo(todo: TodoStateEntryType) {
         this.props.deleteToDo(todo.id)
     }
 }

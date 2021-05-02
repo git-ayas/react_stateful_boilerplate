@@ -1,4 +1,10 @@
 
+/**
+ * Approach 1: vertical partitioning of entities.Inspired by vuex.
+ *  - action types(verbs)
+ *  - action dispatcher class (to be used by components to compose redux actions)
+ *  - action parser class (to be used by reducers to immute states) 
+ */
 export enum TodoVerbs {
     CREATE_TODO="CREATE_TODO", 
     UPDATE_TODO="UPDATE_TODO", 
@@ -13,12 +19,12 @@ interface TodoAction {
     type: TodoVerbs;
     details: any;
 }
-export interface TodoStateType {
+export interface TodoStateEntryType {
     id: string;
     text: string;
     done: boolean;
 }
-const reducer = (state: Array<TodoStateType>, action: TodoAction) => {
+const reducer = (state: Array<TodoStateEntryType>, action: TodoAction) => {
     // Doing the same work being done in reducer function but in a separate class
     return (new TodoActionParser(state, action)).getState()
 }
@@ -28,8 +34,8 @@ export default reducer
  * Handles immutation of state. loads state from localstorage if previously stored
  */
 class TodoActionParser {
-    state: Array<TodoStateType>
-    constructor(state: Array<TodoStateType> = localStorage.getItem("todos")===null?[]:JSON.parse(localStorage.getItem("todos") as string), action: TodoAction) {
+    state: Array<TodoStateEntryType>
+    constructor(state: Array<TodoStateEntryType> = localStorage.getItem("todos")===null?[]:JSON.parse(localStorage.getItem("todos") as string), action: TodoAction) {
         this.state = state
         switch (action.type) {
             case TodoVerbs.CREATE_TODO:
@@ -45,11 +51,11 @@ class TodoActionParser {
                 break;
         }
     }
-    private create(todo: TodoStateType) {
+    private create(todo: TodoStateEntryType) {
         if (this.state.push) this.state.push(todo)
 
     }
-    private update(todoData: TodoStateType) {
+    private update(todoData: TodoStateEntryType) {
         this.state = this.state.map((todo) => {
             if (todoData.id === todo.id) {
                 return todoData
@@ -91,7 +97,7 @@ export class TodoActionDispatcher {
     }
     //----- action methods -----//
     createToDo(text: string) {
-        const todo: TodoStateType = {
+        const todo: TodoStateEntryType = {
             id: `todo-${Math.ceil(Math.random() * 10000)}-${(new Date()).getTime()}`,
             text,
             done: false

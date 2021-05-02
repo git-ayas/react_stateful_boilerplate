@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { CounterActionDispatcher, CounterStateType } from '../../state/CounterState'
+import { CounterActionDispatcher, CounterStateEntryType } from '../../state/CounterState'
 
 /**
  * Pro-tip: If you are using any form of state management 
@@ -11,7 +11,7 @@ import { CounterActionDispatcher, CounterStateType } from '../../state/CounterSt
 class ListCounters extends Component<any, any> {
 
     render() {
-        const counterItems = this.props.counters.map ? this.props.counters.map((counter: CounterStateType) => (
+        const counterItems = this.props.counters.map ? this.props.counters.map((counter: CounterStateEntryType) => (
             <li className="counter-list-item" key={"counter-list-item-" + (new Date()).getTime() + Math.random()}>
                 <div className="counter-container">
                     <button className="btn-clear counter-increment" onClick={() => { this.updateCounter(counter, true) }}>{"➕"}</button>
@@ -27,11 +27,11 @@ class ListCounters extends Component<any, any> {
             <ul className="counter-list" key={"counter-list-" + (new Date()).getTime()}>{counterItems}</ul>
         )
     }
-    updateCounter(counter: CounterStateType, toIncrement: boolean) {
+    updateCounter(counter: CounterStateEntryType, toIncrement: boolean) {
         this.props.updateCounter(counter.id, toIncrement, counter.text)
 
     }
-    deleteCounter(counter: CounterStateType) {
+    deleteCounter(counter: CounterStateEntryType) {
         this.props.deleteCounter(counter.id)
     }
 }

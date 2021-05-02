@@ -1,4 +1,10 @@
 
+/**
+ * Approach 1: vertical partitioning of entities. Inspired by vuex.
+ *  - action types(verbs)
+ *  - action dispatcher class (to be used by components to compose redux actions)
+ *  - action parser class (to be used by reducers to immute states) 
+ */
 export enum CounterVerbs {
     CREATE_COUNTER = "CREATE_COUNTER",
     UPDATE_COUNTER = "UPDATE_COUNTER",
@@ -13,12 +19,12 @@ interface CounterAction {
     type: CounterVerbs;
     details: any;
 }
-export interface CounterStateType {
+export interface CounterStateEntryType {
     id: string;
     text: string;
     count: number;
 }
-const reducer = (state: Array<CounterStateType>, action: CounterAction) => {
+const reducer = (state: Array<CounterStateEntryType>, action: CounterAction) => {
     // Doing the same work being done in reducer function but in a separate class
     return (new CounterActionParser(state, action)).getState()
 }
@@ -28,8 +34,8 @@ export default reducer
  * Handles immutation of state
  */
 class CounterActionParser {
-    state: Array<CounterStateType>
-    constructor(state: Array<CounterStateType> = (localStorage.getItem("counters") === null ? [] : JSON.parse(localStorage.getItem("counters") as string)), action: CounterAction) {
+    state: Array<CounterStateEntryType>
+    constructor(state: Array<CounterStateEntryType> = (localStorage.getItem("counters") === null ? [] : JSON.parse(localStorage.getItem("counters") as string)), action: CounterAction) {
         this.state = state
         switch (action.type) {
             case CounterVerbs.CREATE_COUNTER:
@@ -45,7 +51,7 @@ class CounterActionParser {
                 break;
         }
     }
-    private create(Counter: CounterStateType) {
+    private create(Counter: CounterStateEntryType) {
         if (this.state.push) this.state.push(Counter)
 
     }
@@ -95,7 +101,7 @@ export class CounterActionDispatcher {
     }
     //----- action methods -----//
     createCounter(text: string) {
-        const Counter: CounterStateType = {
+        const Counter: CounterStateEntryType = {
             id: `Counter-${Math.ceil(Math.random() * 10000)}-${(new Date()).getTime()}`,
             text,
             count: 0
