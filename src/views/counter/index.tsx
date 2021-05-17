@@ -1,5 +1,5 @@
-import AddCounter from './views/counter/AddCounter'
-import ListCounters from './views/counter/ListCounters'
+import AddCounter from './AddCounter'
+import ListCounters from './ListCounters'
 
 function Counters() {
     return (

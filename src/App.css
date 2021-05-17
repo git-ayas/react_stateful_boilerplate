@@ -107,6 +107,13 @@ button.btn-clear {
   display: inline-block;
 }
 
+.stopwatch-container {
+  background-color: rebeccapurple;
+  padding: 0.5em;
+  /* padding-bottom: 0.3em; */
+  border-radius: 0.7em;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

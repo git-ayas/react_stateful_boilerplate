@@ -1,6 +1,6 @@
 import React from 'react'
-import AddTodo from './views/todo/AddTodo'
-import ListTodos from './views/todo/ListTodos'
+import AddTodo from './AddTodo'
+import ListTodos from './ListTodos'
 
 function Todos() {
     return (
