@@ -16,7 +16,9 @@ function App() {
           <Counters />
           <Stopwatches/>
         </div>
-
+      </div>
+      <div className="App-footer">
+        <small>Check out the code at <a href="https://github.com/git-ayas/redux_boilerplate" target="_blank" rel="noopener noreferrer">Github</a></small>
       </div>
     </div>
   );
