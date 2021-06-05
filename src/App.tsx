@@ -1,7 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import Todos from './views/todo';
-import Counters from './views/counter';
 import Stopwatches from './views/stopwatch';
 
 function App() {
@@ -12,8 +10,6 @@ function App() {
       </header>
       <div className="App-body">
         <div className="App-row">
-          <Todos />
-          <Counters />
           <Stopwatches/>
         </div>
       </div>
